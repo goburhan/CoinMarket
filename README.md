@@ -1,5 +1,10 @@
 # CoinMarket
-coinmarket app with .net core
+Coinmarket app with
+.net core
+Blazor webAssembly
+Entity framework
+JWT for Authentication
+
 
 //Developing a website ; to follow and manage your crypto assets ,
  to find very usefull news from experienced writers/traders,
