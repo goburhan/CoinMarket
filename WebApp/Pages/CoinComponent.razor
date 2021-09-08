@@ -1,0 +1,85 @@
+﻿@page "/coins/{Id:int}"
+@page "/addcoin"
+
+@inject ICoinsScreenUseCases CoinScreenUseCases
+@inject NavigationManager NavigationManager
+
+<h3>CoinComponent</h3>
+
+<AlertComponent @ref="alertComponent"></AlertComponent>
+
+@if (coin != null)
+{
+<EditForm Model="coin" OnValidSubmit="Update">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <InputText type="text" class="form-control" id="name" @bind-Value="@coin.Name" />
+    </div>
+    <div class="mb-3">
+        <label for="symbol" class="form-label">Symbol</label>
+        <InputText type="text" class="form-control" id="symbol" @bind-Value="@coin.Symbol" />
+    </div>
+    <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <InputNumber class="form-control" @bind-Value="@coin.Price" />
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+
+    <button class="btn btn-danger" @onclick="DeleteCoin" >Delete</button>
+</EditForm>
+ 
+}
+
+
+@code {
+
+    Coin coin;
+    AlertComponent alertComponent;
+
+    [Parameter]
+    public int? Id { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (coin == null) coin = new Coin();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id.HasValue)
+            coin = await CoinScreenUseCases.ViewCoinById(Id.Value);
+
+    }
+
+    async Task Update()
+    {
+        bool bSuccess = true;
+
+        //if (!coin.ValidatePrice())
+        //{
+        //    alertComponent.ErrorMessage = "Price Cannot Berrr Lower Than 0 ! ";
+        //    alertComponent.Show();
+        //    bSuccess = false;
+        //}
+
+        if (bSuccess)
+        {
+            if (Id.HasValue)
+
+                await CoinScreenUseCases.UpdateCoin(coin);
+
+            else
+                await CoinScreenUseCases.CreateCoin(coin);
+
+            NavigationManager.NavigateTo("/");
+        }
+    }
+
+    async Task DeleteCoin()
+    {
+        await CoinScreenUseCases.DeleteCoin(coin.Id);
+        NavigationManager.NavigateTo("/");
+    }
+}

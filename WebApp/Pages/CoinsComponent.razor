@@ -1,0 +1,41 @@
+﻿ @page "/"
+
+@inject ICoinsScreenUseCases CoinsScreenUseCases
+@inject NavigationManager NavigationManager
+<h3>Coins</h3>
+
+@if(coins != null)
+ {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+                @foreach (var coin in coins)
+                {
+                <CoinListComponent coin="coin"></CoinListComponent>
+    }
+</tbody>
+    </table>
+    <button class="btn btn-primary"@onclick="AddCoin" >Add Coin</button>
+
+ }
+
+@code {
+    IEnumerable<Coin> coins;
+
+    protected override async Task OnInitializedAsync()
+    {
+        coins = await CoinsScreenUseCases.ViewCoinsAsync();
+    }
+    private void AddCoin()
+        {
+        NavigationManager.NavigateTo("/addcoin");
+        }
+
+}
+ 

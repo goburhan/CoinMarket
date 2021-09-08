@@ -14,13 +14,17 @@ namespace App.Repository.ApiClient
         private readonly HttpClient httpClient;
 
         public CoinMarketAppExecuter(string baseUrl,
-            HttpClient httpClient)
+            HttpClient httpClient,
+            string clientId,
+            string apiKey)
         {
             this.baseUrl = baseUrl;
             this.httpClient = httpClient;
-
+            httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Accept.Clear();
             httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("ClientId", clientId);
+            httpClient.DefaultRequestHeaders.Add("ApiKey",apiKey);
         }
 
         public async Task<T> InvokeGet<T>(string uri)
@@ -31,7 +35,7 @@ namespace App.Repository.ApiClient
         public async Task<T> InvokePost<T>(string uri, T obj)
         {
             var response = await httpClient.PostAsJsonAsync(GetUrl(uri), obj);
-            response.EnsureSuccessStatusCode();
+            await HandleError(response);
 
             return await response.Content.ReadFromJsonAsync<T>();
         }
@@ -39,18 +43,27 @@ namespace App.Repository.ApiClient
         public async Task InvokePut<T>(string uri, T obj)
         {
             var response = await httpClient.PutAsJsonAsync(GetUrl(uri), obj);
-            response.EnsureSuccessStatusCode();
+            await HandleError(response);
         }
 
         public async Task InvokeDelete(string uri)
         {
             var response = await httpClient.DeleteAsync(GetUrl(uri));
-            response.EnsureSuccessStatusCode();
+            await HandleError(response);
         }
 
         private string GetUrl(string uri)
         {
             return $"{baseUrl}/{uri}";
+        }
+
+        private async Task HandleError(HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                throw new HttpRequestException(error);
+            }
         }
 
     }

@@ -1,0 +1,23 @@
+﻿@if (coin != null)
+{
+    <tr>
+        <td>
+            <NavLink href="@($"/coins/{coin.Id}")">
+                @coin.Name
+            </NavLink>
+        </td>
+       
+        <td>
+            @coin.Symbol
+        </td>
+        <td>
+            @coin.Price
+        </td>
+    </tr>
+}
+
+@code {
+    [Parameter]
+    public Coin coin { get; set; }
+
+}

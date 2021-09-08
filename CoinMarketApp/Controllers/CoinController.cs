@@ -1,4 +1,5 @@
 ﻿using CoinMarketApp.Core.Models;
+using CoinMarketApp.Filters;
 using DataStore.EF.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,10 @@ using System.Threading.Tasks;
 
 namespace CoinMarketApp.Controllers
 {
-
+    [ApiVersion("1.0")]
     [ApiController]
     [Route("api/[controller]")] //api/coin olarak coincontrollerı çağırıyoruz
+    [APIKeyAuthFilter]
 
     public class CoinController : ControllerBase
     {
@@ -66,5 +68,6 @@ namespace CoinMarketApp.Controllers
             await _db.SaveChangesAsync();
             return Ok("Coin updated.");
         }
+
     }
 }

@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Repository
+namespace MyApp.Repository
 {
-    public class CoinRepository
+    public class CoinRepository : ICoinRepository
     {
         private readonly ICoinMarketAppExecuter CoinMarketAppExecuter;
 
@@ -17,9 +17,27 @@ namespace App.Repository
             this.CoinMarketAppExecuter = CoinMarketAppExecuter;
         }
 
-        public async Task<IEnumerable<Coin>> Get()
+        public async Task<IEnumerable<Coin>> GetAsync()
         {
             return await CoinMarketAppExecuter.InvokeGet<IEnumerable<Coin>>("api/coin");
+        }
+        public async Task<Coin> GetCoinByIdAsync(int id)
+        {
+            return await CoinMarketAppExecuter.InvokeGet<Coin>($"api/coin/{id}");
+        }
+        public async Task<int> CreateAsync(Coin coin)
+        {
+            coin = await CoinMarketAppExecuter.InvokePost("api/coin", coin);
+            return coin.Id;
+        }
+        public async Task UpdateAsync(Coin coin)
+        {
+            await CoinMarketAppExecuter.InvokePut($"api/coin/{coin.Id}", coin);
+
+        }
+        public async Task DeleteAsync(int id)
+        {
+            await CoinMarketAppExecuter.InvokeDelete($"api/coin/{id}");
         }
     }
 }
