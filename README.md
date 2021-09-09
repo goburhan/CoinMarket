@@ -4,7 +4,8 @@ Coinmarket app with
 Blazor webAssembly
 Entity framework
 JWT for Authentication
-
+Layered Architecture
+Web Api
 
 //Developing a website ; to follow and manage your crypto assets ,
  to find very usefull news from experienced writers/traders,
