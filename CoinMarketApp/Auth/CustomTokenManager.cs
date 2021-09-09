@@ -17,12 +17,12 @@ namespace CoinMarketApp.Auth
         }
         public bool VerifyToken(string token)
         {
-             return tokens.Any(x => token.Contains(x.TokenString));
+            return tokens.Any(x => token != null && token.Contains(x.TokenString) && x.ExpiryDate > DateTime.Now);
         }
 
         public string GetUserInfoByToken(string tokenString)
         {
-            var token = tokens.FirstOrDefault(x => tokenString.Contains(x.TokenString));
+            var token = tokens.FirstOrDefault(x=>tokenString!=null && tokenString.Contains(x.TokenString));
             if (token != null) return token.UserName;
 
             return string.Empty;

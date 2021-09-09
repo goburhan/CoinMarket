@@ -10,7 +10,7 @@ namespace DataStore.EF.Data
 {
     public class CoinMarketDbContext : DbContext
     {
-        public CoinMarketDbContext(DbContextOptions options) : base(options)
+        public CoinMarketDbContext(DbContextOptions<CoinMarketDbContext> options) : base(options)
         {
         }
         public DbSet<Coin> Coins { get; set; }

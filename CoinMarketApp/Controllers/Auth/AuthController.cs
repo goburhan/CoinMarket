@@ -19,18 +19,37 @@ namespace CoinMarketApp.Controllers.Auth
             this.customUserManager = customUserManager;
             this.customTokenManager = customTokenManager;
         }
-        public Task<string> Authenticate(string userName, string password)
+
+        [HttpPost]
+        [Route("/authenticate")]
+        public Task<string> Authenticate(UserCredentials userCredentials)
         {
-            return Task.FromResult(customUserManager.Authenticate(userName, password));
+            return Task.FromResult(customUserManager.Authenticate(userCredentials.userName, userCredentials.password));
 
         }
+        [HttpGet]
+        [Route("/verifytoken")]
         public Task<bool> Verify(string token)
         {
             return Task.FromResult(customTokenManager.VerifyToken(token));
         }
+        [HttpGet]
+        [Route("/getuserinfo")]
         public Task<string> GetUserInfoByToken(string token)
         {
             return Task.FromResult(customTokenManager.GetUserInfoByToken(token));
         }
+
+        public class UserCredentials
+        {
+            public string userName { get; set; }
+            public string password { get; set; }
+
+        }
+        public class Token
+        {
+            public string token { get; set; }
+        }
+
     }
 }

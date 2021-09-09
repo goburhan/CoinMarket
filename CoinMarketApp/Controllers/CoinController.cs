@@ -13,7 +13,7 @@ namespace CoinMarketApp.Controllers
     [ApiVersion("1.0")]
     [ApiController]
     [Route("api/[controller]")] //api/coin olarak coincontrollerı çağırıyoruz
-    [APIKeyAuthFilter]
+    
 
     public class CoinController : ControllerBase
     {
@@ -25,6 +25,7 @@ namespace CoinMarketApp.Controllers
         }
 
         [HttpGet]
+        
         public async Task <IActionResult> Get()
         {
             return Ok(await _db.Coins.ToListAsync());
@@ -41,6 +42,7 @@ namespace CoinMarketApp.Controllers
         }
 
         [HttpGet("{id}")]
+        [CustomTokenAuthFilter]
         public async Task<IActionResult> GetById(int id)
         {
             var coin = await _db.Coins.FindAsync(id);

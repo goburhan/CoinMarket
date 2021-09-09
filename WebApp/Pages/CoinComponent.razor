@@ -1,35 +1,39 @@
 ﻿@page "/coins/{Id:int}"
 @page "/addcoin"
 
+@attribute [Authorize]
+
 @inject ICoinsScreenUseCases CoinScreenUseCases
 @inject NavigationManager NavigationManager
 
+
 <h3>CoinComponent</h3>
+
 
 <AlertComponent @ref="alertComponent"></AlertComponent>
 
 @if (coin != null)
 {
-<EditForm Model="coin" OnValidSubmit="Update">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <ValidationSummary></ValidationSummary>
-    <div class="mb-3">
-        <label for="name" class="form-label">Name</label>
-        <InputText type="text" class="form-control" id="name" @bind-Value="@coin.Name" />
-    </div>
-    <div class="mb-3">
-        <label for="symbol" class="form-label">Symbol</label>
-        <InputText type="text" class="form-control" id="symbol" @bind-Value="@coin.Symbol" />
-    </div>
-    <div class="mb-3">
-        <label for="price" class="form-label">Price</label>
-        <InputNumber class="form-control" @bind-Value="@coin.Price" />
-    </div>
-    <button class="btn btn-primary" type="submit">Save</button>
+    <EditForm Model="coin" OnValidSubmit="Update">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <ValidationSummary></ValidationSummary>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <InputText type="text" class="form-control" id="name" @bind-Value="@coin.Name" />
+        </div>
+        <div class="mb-3">
+            <label for="symbol" class="form-label">Symbol</label>
+            <InputText type="text" class="form-control" id="symbol" @bind-Value="@coin.Symbol" />
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">Price</label>
+            <InputNumber class="form-control" @bind-Value="@coin.Price" />
+        </div>
+        <button class="btn btn-primary" type="submit">Save</button>
 
-    <button class="btn btn-danger" @onclick="DeleteCoin" >Delete</button>
-</EditForm>
- 
+        <button class="btn btn-danger" @onclick="DeleteCoin">Delete</button>
+    </EditForm>
+
 }
 
 

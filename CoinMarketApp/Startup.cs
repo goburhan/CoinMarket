@@ -18,17 +18,20 @@ namespace CoinMarketApp
     public class Startup
     {
         private readonly IWebHostEnvironment _env;
+        public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration , IWebHostEnvironment env)
+        public Startup(IWebHostEnvironment env,IConfiguration configuration )
         {
             _env = env;
+            Configuration = configuration;
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICustomTokenManager, CustomTokenManager>();
+            services.AddSingleton<ICustomTokenManager, JwtTokenManager>();
             services.AddSingleton<ICustomUserManager, CustomUserManager>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             if (_env.IsDevelopment())
             {
@@ -36,6 +39,9 @@ namespace CoinMarketApp
                 {
                     options.UseInMemoryDatabase("CoinDb");
                 });
+            }
+            else if(_env.IsStaging() || _env.IsProduction()){
+                services.AddDbContext<CoinMarketDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             }
             services.AddControllers();
 

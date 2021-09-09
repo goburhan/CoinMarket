@@ -1,9 +1,9 @@
-﻿<div class="alert alert-danger" 
-     style="@($"display:{display}")"
+﻿<div class="alert alert-danger"
+     style="@($"display: {display}")"
      role="alert">
     @ErrorMessage
     <button type="button"
-           @onclick="Dismiss"
+            @onclick="Dismiss"
             class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -19,6 +19,7 @@
         display = "block";
         StateHasChanged();
     }
+
     public void Dismiss()
     {
         display = "none";
