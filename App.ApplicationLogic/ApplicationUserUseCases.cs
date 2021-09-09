@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UseCases
+namespace MyApp.ApplicationLogic
 {
-    public class ApplicationUsersUseCases
+    public class ApplicationUsersUseCases : IApplicationUsersUseCases
     {
         private readonly IApplicationUserRepository _userRepository;
 

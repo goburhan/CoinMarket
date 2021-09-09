@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\App.ApplicationLogic\App.ApplicationLogic.csproj" />
     <ProjectReference Include="..\DataStore.EF\DataStore.EF.csproj" />
   </ItemGroup>
 

@@ -23,28 +23,27 @@
 
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
-}
-@code {
 
-    AlertComponent alertComponent;
-    UserViewModel userViewModel;
+          }
+          @code {
+          AlertComponent alertComponent;
+          UserViewModel userViewModel;
 
-    protected override void OnInitialized()
-    {
-        userViewModel = new UserViewModel();
-    }
+          protected override void OnInitialized()
+          {
+          userViewModel=new UserViewModel();
+          }
 
-    async Task Login()
-    {
-        var token = await AuthenticationUseCases.LoginAsync(userViewModel.UserName,userViewModel.Password);
-        if (string.IsNullOrWhiteSpace(token))
-        {
-            alertComponent.ErrorMessage = "Login Failled";
-            alertComponent.Show();
-        }
-        else
-            Console.WriteLine("giriş başarılı");
-                NavigationManager.NavigateTo("/",true);
-    }
-
-}
+          async Task Login()
+          {
+          var token=await AuthenticationUseCases.LoginAsync(userViewModel.UserName,userViewModel.Password);
+          if (string.IsNullOrWhiteSpace(token))
+          {
+          alertComponent.ErrorMessage="Login Failled" ;
+          alertComponent.Show();
+          }
+          else
+          Console.WriteLine("giriş başarılı");
+          NavigationManager.NavigateTo(" /",true);
+          }
+          }

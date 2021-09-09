@@ -29,10 +29,11 @@ namespace WebApp
               
                  sp.GetRequiredService<ITokenRepository>()
                  )); //Executer uses HttpClient, dont need create a client all time so this is singleton
-        
-            #region dependency injections
-           
 
+            #region dependency injections
+
+            builder.Services.AddTransient<IApplicationUsersUseCases, ApplicationUsersUseCases>();
+            builder.Services.AddTransient<IApplicationUserRepository, ApplicationUserRepository>();
             builder.Services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
             builder.Services.AddTransient<IAuthenticationUseCases, AuthenticationUseCases>();
 

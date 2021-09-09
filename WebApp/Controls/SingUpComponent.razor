@@ -1,0 +1,47 @@
+﻿@page "/Register"
+
+@inject IApplicationUsersUseCases ApplicationUsersUseCases
+@inject NavigationManager NavigationManager
+
+@using Core.Models
+
+
+<h3>RegisterComponent</h3>
+
+<EditForm Model="applicationUser" OnValidSubmit="Register" class="form">
+
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <ValidationSummary></ValidationSummary>
+
+    <div class="form-group">
+        <label for="FirstName">Name</label>
+        <InputText id="firstname" @bind-Value="applicationUser.FirstName" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="UserName">UserName</label>
+        <InputText id="username" @bind-Value="applicationUser.Username" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <InputText id="password" @bind-Value="applicationUser.Password" class="form-control" type="password"></InputText>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</EditForm>
+
+    @code {
+
+        ApplicationUser applicationUser;
+
+        protected override void OnInitialized()
+        {
+            if(applicationUser==null)
+           applicationUser = new ApplicationUser();
+        }
+
+        async Task Register()
+        {
+            var token = await ApplicationUsersUseCases.CreateUserAsync(applicationUser);
+            NavigationManager.NavigateTo("/");
+        }
+        
+    }

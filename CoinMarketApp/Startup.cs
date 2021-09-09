@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyApp.ApplicationLogic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace CoinMarketApp
         {
             services.AddSingleton<ICustomTokenManager, JwtTokenManager>();
             services.AddSingleton<ICustomUserManager, CustomUserManager>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
 
             if (_env.IsDevelopment())
             {
@@ -81,7 +82,7 @@ namespace CoinMarketApp
                         options.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1");
                     });
             }
-
+           
             app.UseRouting();
 
             app.UseCors();

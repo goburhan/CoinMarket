@@ -18,27 +18,27 @@ namespace MyApp.Repository
 
         public async Task<IEnumerable<ApplicationUser>> GetAsync()
         {
-            return await coinMarketAppExecuter.InvokeGet<IEnumerable<ApplicationUser>>("api/users");
+            return await coinMarketAppExecuter.InvokeGet<IEnumerable<ApplicationUser>>("api/applicationusers");
         }
 
         public async Task<ApplicationUser> GetByIdAsync(int id)
         {
-            return await coinMarketAppExecuter.InvokeGet<ApplicationUser>($"api/users/{id}");
+            return await coinMarketAppExecuter.InvokeGet<ApplicationUser>($"api/applicationusers/{id}");
         }
 
         public async Task<ApplicationUser> CreateAsync(ApplicationUser user)
         {
-            return await coinMarketAppExecuter.InvokePost("api/users", user);
+            return await coinMarketAppExecuter.InvokePost("api/applicationusers", user);
         }
 
         public async Task UpdateAsync(ApplicationUser user)
         {
-            await coinMarketAppExecuter.InvokePut($"api/users/{user.Id}", user);
+            await coinMarketAppExecuter.InvokePut($"api/applicationusers/{user.Id}", user);
         }
 
         public async Task DeleteAsync(int id)
         {
-            await coinMarketAppExecuter.InvokeDelete($"api/users/{id}");
+            await coinMarketAppExecuter.InvokeDelete($"api/applicationusers/{id}");
         }
     }
 }

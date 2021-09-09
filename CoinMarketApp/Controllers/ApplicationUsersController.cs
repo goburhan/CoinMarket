@@ -31,12 +31,18 @@ namespace WebApp.Controls
             [HttpPost]
             public async Task<IActionResult> Create([FromBody] ApplicationUser applicationUser)
             {
+            ApplicationUser user = await _db.ApplicationUsers.FirstOrDefaultAsync( x => x.Username == applicationUser.Username);
+            if (user == null)
+            {
                 await _db.ApplicationUsers.AddAsync(applicationUser);
                 await _db.SaveChangesAsync();
                 return CreatedAtAction(nameof(GetById),
                     new { id = applicationUser.Id },
                     applicationUser
                     );
+            }
+            else
+                return Conflict(new { message = "User Name Already Taken" });
             }
 
             [HttpGet("{id}")]
